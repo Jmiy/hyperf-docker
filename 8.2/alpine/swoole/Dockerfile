@@ -28,11 +28,15 @@ ENV SW_VERSION=${SW_VERSION:-"v5.1.1"} \
 RUN set -ex \
     && apk update \
     # for swoole extension libaio linux-headers
-    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php82-pdo_sqlite php82-pdo_odbc \
+    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php82-pdo_pgsql php82-pdo_sqlite php82-pdo_odbc php82-imap php82-mongodb \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS unixodbc-dev sqlite-dev \
+    && cd /tmp \
+    && pecl82 install xlswriter \
+    && echo "extension=xlswriter.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/xlswriter.ini \
+    && echo "extension=mongodb.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/mongodb.ini \
     # download
     && cd /tmp \
-    && curl -SL "https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
+    && curl -SL "https://github.com/swoole/swoole-src/archive/refs/tags/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
     && ls -alh \
     # php extension:swoole
     && cd /tmp \
@@ -47,6 +51,7 @@ RUN set -ex \
         && make -s -j$(nproc) && make install \
     ) \
     && echo "memory_limit=1G" > /etc/php${PHP_BUILD_VERSION}/conf.d/00_default.ini \
+    && echo "max_input_vars=PHP_INT_MAX" >> /etc/php${PHP_BUILD_VERSION}/conf.d/00_default.ini \
     && echo "opcache.enable_cli = 'On'" >> /etc/php${PHP_BUILD_VERSION}/conf.d/00_opcache.ini \
     && echo "extension=swoole.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/50_swoole.ini \
     && echo "swoole.use_shortname = 'Off'" >> /etc/php${PHP_BUILD_VERSION}/conf.d/50_swoole.ini \

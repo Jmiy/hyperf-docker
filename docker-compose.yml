@@ -11,9 +11,21 @@ services:
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
 
+#  # swoole image
+#  alpine-swoole:
+#    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}"
+#    build:
+#      context: "${PHP_VERSION}/alpine/swoole"
+#      dockerfile: "Dockerfile${SPEC}"
+#      args:
+#        ALPINE_VERSION: ${ALPINE_VERSION}
+#        SW_VERSION: ${SW_VERSION}
+#        COMPOSER_VERSION: ${COMPOSER_VERSION}
+#        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
+
   # swoole image
-  alpine-swoole:
-    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}"
+  alpine-swoole--extension:
+    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-extension-v${PHP_VERSION}"
     build:
       context: "${PHP_VERSION}/alpine/swoole"
       dockerfile: "Dockerfile${SPEC}"
@@ -22,24 +34,25 @@ services:
         SW_VERSION: ${SW_VERSION}
         COMPOSER_VERSION: ${COMPOSER_VERSION}
         PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
+    container_name: "alpine-swoole--extension"
 
   # swow image
-  alpine-swow:
-    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swow${SPEC}-${SW_VERSION}"
-    build:
-      context: "${PHP_VERSION}/alpine/swow"
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-        SW_VERSION: ${SW_VERSION}
-        COMPOSER_VERSION: ${COMPOSER_VERSION}
-        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
+#  alpine-swow:
+#    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swow${SPEC}-${SW_VERSION}"
+#    build:
+#      context: "${PHP_VERSION}/alpine/swow"
+#      args:
+#        ALPINE_VERSION: ${ALPINE_VERSION}
+#        SW_VERSION: ${SW_VERSION}
+#        COMPOSER_VERSION: ${COMPOSER_VERSION}
+#        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
 
   # dev image
-  alpine-dev:
-    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-dev"
-    build:
-      context: "${PHP_VERSION}/alpine/dev"
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-        COMPOSER_VERSION: ${COMPOSER_VERSION}
-        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
+#  alpine-dev:
+#    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-dev"
+#    build:
+#      context: "${PHP_VERSION}/alpine/dev"
+#      args:
+#        ALPINE_VERSION: ${ALPINE_VERSION}
+#        COMPOSER_VERSION: ${COMPOSER_VERSION}
+#        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}

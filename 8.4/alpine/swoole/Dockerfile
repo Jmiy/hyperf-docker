@@ -1,4 +1,4 @@
-# hyperf/hyperf:8.1
+# hyperf/hyperf:8.4
 #
 # @link     https://www.hyperf.io
 # @document https://hyperf.wiki
@@ -7,7 +7,7 @@
 
 ARG ALPINE_VERSION
 
-FROM hyperf/hyperf:8.1-alpine-v${ALPINE_VERSION}-base
+FROM hyperf/hyperf:8.4-alpine-v${ALPINE_VERSION}-base
 
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT"
 
@@ -28,7 +28,7 @@ ENV SW_VERSION=${SW_VERSION:-"v5.1.1"} \
 RUN set -ex \
     && apk update \
     # for swoole extension libaio linux-headers
-    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php81-pdo_pgsql php81-pdo_sqlite php81-pdo_odbc \
+    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php84-pdo_pgsql php84-pdo_sqlite php84-pdo_odbc \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS unixodbc-dev sqlite-dev \
     # download
     && cd /tmp \
