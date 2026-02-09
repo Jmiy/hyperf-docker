@@ -10,6 +10,7 @@ services:
       context: "${PHP_VERSION}/alpine/base"
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
+    container_name: "hyperf-${PHP_VERSION}-alpine-v${ALPINE_VERSION}-base"
 
 #  # swoole image
 #  alpine-swoole:
@@ -23,18 +24,18 @@ services:
 #        COMPOSER_VERSION: ${COMPOSER_VERSION}
 #        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
 
-  # swoole image
-  alpine-swoole--extension:
-    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-extension-v${PHP_VERSION}"
-    build:
-      context: "${PHP_VERSION}/alpine/swoole"
-      dockerfile: "Dockerfile${SPEC}"
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-        SW_VERSION: ${SW_VERSION}
-        COMPOSER_VERSION: ${COMPOSER_VERSION}
-        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
-    container_name: "alpine-swoole--extension"
+#  # swoole image
+#  alpine-swoole--extension:
+#    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-extension-v${PHP_VERSION}"
+#    build:
+#      context: "${PHP_VERSION}/alpine/swoole"
+#      dockerfile: "Dockerfile${SPEC}"
+#      args:
+#        ALPINE_VERSION: ${ALPINE_VERSION}
+#        SW_VERSION: ${SW_VERSION}
+#        COMPOSER_VERSION: ${COMPOSER_VERSION}
+#        PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
+#    container_name: "alpine-swoole--extension"
 
   # swow image
 #  alpine-swow:

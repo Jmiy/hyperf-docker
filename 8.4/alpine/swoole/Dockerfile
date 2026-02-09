@@ -28,11 +28,16 @@ ENV SW_VERSION=${SW_VERSION:-"v5.1.1"} \
 RUN set -ex \
     && apk update \
     # for swoole extension libaio linux-headers
-    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php84-pdo_pgsql php84-pdo_sqlite php84-pdo_odbc \
+    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php84-pdo_pgsql php84-pdo_sqlite php84-pdo_odbc php84-imap php84-mongodb \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS unixodbc-dev sqlite-dev \
+    && cd /tmp \
+    && pecl84 install xlswriter \
+    && echo "extension=xlswriter.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/xlswriter.ini \
+    && echo "extension=mongodb.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/mongodb.ini \
     # download
     && cd /tmp \
-    && curl -SL "https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
+#    && curl -SL "https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
+    && curl -SL "https://github.com/swoole/swoole-src/archive/refs/tags/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
     && ls -alh \
     # php extension:swoole
     && cd /tmp \
