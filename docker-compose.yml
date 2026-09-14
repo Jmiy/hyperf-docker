@@ -37,7 +37,7 @@ services:
         PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
     container_name: "hyperf-${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-composer-v${COMPOSER_VERSION}"
 
-  # swow image
+#  # swow image
 #  alpine-swow:
 #    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swow${SPEC}-${SW_VERSION}"
 #    build:
