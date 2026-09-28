@@ -6,8 +6,9 @@
 # @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
 
 ARG ALPINE_VERSION
+ARG PHP_VERSION
 
-FROM hyperf/hyperf:8.4-alpine-v${ALPINE_VERSION}-base
+FROM hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-base
 
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT"
 
@@ -22,21 +23,21 @@ ENV SW_VERSION=${SW_VERSION:-"v5.1.1"} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-"2.6.6"} \
     COMPOSER_ALLOW_SUPERUSER=1 \
     #  install and remove building packages
-    PHPIZE_DEPS="autoconf dpkg-dev dpkg file g++ gcc libc-dev make php${PHP_BUILD_VERSION}-dev php${PHP_BUILD_VERSION}-pear pkgconf re2c pcre-dev pcre2-dev zlib-dev libtool automake libaio-dev openssl-dev curl-dev liburing-dev linux-headers"
+    PHPIZE_DEPS="autoconf dpkg-dev dpkg file g++ gcc libc-dev make php${PHP_BUILD_VERSION}-dev php${PHP_BUILD_VERSION}-pear pkgconf re2c pcre-dev pcre2-dev zlib-dev libtool automake libaio-dev openssl-dev curl-dev liburing-dev linux-headers libssh2-dev"
 
 # update
 RUN set -ex \
     && apk update \
     # for swoole extension libaio linux-headers
-    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php${PHP_BUILD_VERSION}-pdo_pgsql php${PHP_BUILD_VERSION}-pdo_sqlite php${PHP_BUILD_VERSION}-pdo_odbc php${PHP_BUILD_VERSION}-imap php${PHP_BUILD_VERSION}-mongodb liburing \
+    && apk add --no-cache libstdc++ openssl git bash c-ares-dev libpq-dev php${PHP_BUILD_VERSION}-pdo_pgsql php${PHP_BUILD_VERSION}-pdo_sqlite php${PHP_BUILD_VERSION}-pdo_odbc php${PHP_BUILD_VERSION}-imap php${PHP_BUILD_VERSION}-mongodb liburing libssh2 \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS unixodbc-dev sqlite-dev \
     && cd /tmp \
-    && pecl84 install xlswriter \
+    && pecl${PHP_BUILD_VERSION} install xlswriter \
     && echo "extension=xlswriter.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/xlswriter.ini \
     && echo "extension=mongodb.so" > /etc/php${PHP_BUILD_VERSION}/conf.d/mongodb.ini \
     # download
     && cd /tmp \
-#    && curl -SL "https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
+    # && curl -SL "https://github.com/swoole/swoole-src/archive/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
     && curl -SL "https://github.com/swoole/swoole-src/archive/refs/tags/${SW_VERSION}.tar.gz" -o swoole.tar.gz \
     && ls -alh \
     # php extension:swoole
@@ -48,7 +49,7 @@ RUN set -ex \
     && ( \
         cd swoole \
         && phpize \
-        && ./configure --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-swoole-sqlite --enable-swoole-ftp --enable-swoole-ssh --with-swoole-odbc=unixODBC,/usr \
+        && ./configure --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-swoole-sqlite --enable-swoole-ftp --with-swoole-ssh2 --with-swoole-odbc=unixODBC,/usr \
         && make -s -j$(nproc) && make install \
     ) \
     && echo "memory_limit=1G" > /etc/php${PHP_BUILD_VERSION}/conf.d/00_default.ini \

@@ -32,6 +32,7 @@ services:
       dockerfile: "Dockerfile${SPEC}"
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
+        PHP_VERSION: ${PHP_VERSION}
         SW_VERSION: ${SW_VERSION}
         COMPOSER_VERSION: ${COMPOSER_VERSION}
         PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
