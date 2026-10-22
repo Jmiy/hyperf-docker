@@ -7,8 +7,9 @@
 
 ARG ALPINE_VERSION
 ARG PHP_VERSION
+ARG PHP_VERSION_LAST
 
-FROM hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-base
+FROM hyperf/hyperf:${PHP_VERSION_LAST}-alpine-v${ALPINE_VERSION}-base
 
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT"
 

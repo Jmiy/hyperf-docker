@@ -5,12 +5,12 @@ version: "3.7"
 services:
   # base image
   alpine-base:
-    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-base"
+    image: "hyperf/hyperf:${PHP_VERSION_LAST}-alpine-v${ALPINE_VERSION}-base"
     build:
       context: "${PHP_VERSION}/alpine/base"
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
-    container_name: "hyperf-${PHP_VERSION}-alpine-v${ALPINE_VERSION}-base"
+    container_name: "hyperf-${PHP_VERSION_LAST}-alpine-v${ALPINE_VERSION}-base"
 
 #  # swoole image
 #  alpine-swoole:
@@ -26,17 +26,18 @@ services:
 
   # swoole image
   alpine-swoole-composer:
-    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-composer-v${COMPOSER_VERSION}"
+    image: "hyperf/hyperf:${PHP_VERSION_LAST}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-composer-v${COMPOSER_VERSION}"
     build:
       context: "${PHP_VERSION}/alpine/swoole"
       dockerfile: "Dockerfile${SPEC}"
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
         PHP_VERSION: ${PHP_VERSION}
+        PHP_VERSION_LAST: ${PHP_VERSION_LAST}
         SW_VERSION: ${SW_VERSION}
         COMPOSER_VERSION: ${COMPOSER_VERSION}
         PHP_BUILD_VERSION: ${PHP_BUILD_VERSION}
-    container_name: "hyperf-${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-composer-v${COMPOSER_VERSION}"
+    container_name: "hyperf-${PHP_VERSION_LAST}-alpine-v${ALPINE_VERSION}-swoole${SPEC}-${SW_VERSION}-composer-v${COMPOSER_VERSION}"
 
 #  # swow image
 #  alpine-swow:
